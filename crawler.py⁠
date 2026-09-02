@@ -1,0 +1,29 @@
+import os
+import psycopg2
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+def fetch_prices():
+    # 測試數據
+    items = [
+        {"id": "bullet_m61", "name": "M61 子彈", "price": 2350},
+        {"id": "bullet_m855a1", "name": "M855A1 子彈", "price": 1120}
+    ]
+    return items
+
+def save_to_db(items):
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    for item in items:
+        cursor.execute(
+            "INSERT INTO price_logs (item_id, item_name, price) VALUES (%s, %s, %s)",
+            (item['id'], item['name'], item['price'])
+        )
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+if __name__ == "__main__":
+    items = fetch_prices()
+    save_to_db(items)
+    print("成功寫入 Neon 資料庫！")

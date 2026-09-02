@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>三角洲行動 - 交易行物資看板</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { background-color: #121212; color: #f0f0f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 12px; }
+    .header { font-size: 20px; font-weight: bold; margin: 12px 0; text-align: center; color: #409eff; }
+    .card { background: #1e1e1e; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .item-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .price-tag { color: #67c23a; font-size: 15px; }
+    .time-btn-group { display: flex; gap: 6px; margin-bottom: 12px; }
+    .time-btn { flex: 1; padding: 6px 0; background: #2a2a2a; color: #aaa; border: 1px solid #3d3d3d; border-radius: 6px; font-size: 12px; cursor: pointer; }
+    .time-btn.active { background: #409eff; color: #fff; border-color: #409eff; }
+    .chart-container { position: relative; height: 220px; width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="header">《三角洲行動》物資歷史價格</div>
+
+  <!-- M61 子彈卡片 -->
+  <div class="card">
+    <div class="item-title">
+      <span>M61 子彈 (6階)</span>
+      <span class="price-tag">最新: $2,350</span>
+    </div>
+    <div class="time-btn-group">
+      <button class="time-btn active">12H</button>
+      <button class="time-btn">24H</button>
+      <button class="time-btn">7D</button>
+      <button class="time-btn">1M</button>
+    </div>
+    <div class="chart-container">
+      <canvas id="m61Chart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('m61Chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['12:00', '12:15', '12:30', '12:45', '13:00'],
+        datasets: [{
+          label: '價格',
+          data: [2300, 2350, 2320, 2380, 2350],
+          borderColor: '#409eff',
+          backgroundColor: 'rgba(64, 158, 255, 0.1)',
+          tension: 0.3,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: '#2a2a2a' }, ticks: { color: '#888' } },
+          y: { grid: { color: '#2a2a2a' }, ticks: { color: '#888' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
